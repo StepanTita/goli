@@ -159,7 +159,7 @@ class ListVoteAPIView(views.APIView):
     permission_classes = (permissions.AllowAny,)
 
     def get(self, request, **kwargs):
-        quiz_id = kwargs.get('quiz', -1)
+        quiz_id = kwargs.get('pk', -1)
         if quiz_id == -1:
             return response.Response(status=status.HTTP_404_NOT_FOUND)
         votes = models.VoteChoice.objects.filter(quiz_id=quiz_id).values('choice', 'user').annotate(Count('user'))
