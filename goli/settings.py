@@ -24,7 +24,7 @@ SECRET_KEY = 'kw@7&^$5n@8cp6!ag&(u4+%=2o+@+91r==xo+@$dz=$5s+hs3p'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -150,12 +150,14 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-SWAGGER_SETTINGS = {
-    'SECURITY_DEFINITIONS': {
-        'api_key': {
-            'type': 'apiKey',
-            'in': 'header',
-            'name': 'Authorization'
-        }
-    },
-}
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+# SWAGGER_SETTINGS = {
+#     'SECURITY_DEFINITIONS': {
+#         'api_key': {
+#             'type': 'apiKey',
+#             'in': 'header',
+#             'name': 'Authorization'
+#         }
+#     },
+# }
