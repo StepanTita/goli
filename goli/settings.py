@@ -100,13 +100,14 @@ WSGI_APPLICATION = 'goli.wsgi.application'
 databases = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
+        'NAME': 'd7788rh0jb5hfm',
+        'USER': 'iejevxowqvbzqt',
+        'PASSWORD': '5ed930185e19d011c758094e11f0d559e17ccfab39669266fcf95c1fca24141b',
         'HOST': 'db',
         'PORT': 5432,
     }
 }
+
 if DEBUG:
     databases['default'] = {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -114,6 +115,9 @@ if DEBUG:
     }
 
 DATABASES = databases
+
+db_from_env = django_heroku.dj_database_url.config(conn_max_age=600)
+DATABASES['default'].update(db_from_env)
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
