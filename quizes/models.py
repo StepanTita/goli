@@ -18,7 +18,7 @@ class Vote(models.Model):
 # TODO rename to Vote
 class VoteChoice(models.Model):
     quiz = models.ForeignKey(Vote, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, to_field="username")
     choice = models.PositiveBigIntegerField(blank=False, null=False)
 
     class Meta:

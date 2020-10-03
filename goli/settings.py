@@ -101,26 +101,26 @@ WSGI_APPLICATION = 'goli.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 databases = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': 'd7788rh0jb5hfm',
+    #     'USER': 'iejevxowqvbzqt',
+    #     'PASSWORD': '5ed930185e19d011c758094e11f0d559e17ccfab39669266fcf95c1fca24141b',
+    #     'HOST': 'db',
+    #     'PORT': 5432,
+    # }
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'd7788rh0jb5hfm',
-        'USER': 'iejevxowqvbzqt',
-        'PASSWORD': '5ed930185e19d011c758094e11f0d559e17ccfab39669266fcf95c1fca24141b',
-        'HOST': 'db',
-        'PORT': 5432,
-    }
-}
-
-if DEBUG:
-    databases['default'] = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
+}
 
 DATABASES = databases
 
-db_from_env = django_heroku.dj_database_url.config(conn_max_age=600)
-DATABASES['default'].update(db_from_env)
+deploying = os.getenv("DEPLOYING", 0)
+if deploying:
+    db_from_env = django_heroku.dj_database_url.config(conn_max_age=600)
+    DATABASES['default'].update(db_from_env)
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
