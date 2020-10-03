@@ -171,3 +171,4 @@ class ListVoteAPIView(generics.ListAPIView):
     # authentication_classes = [authentication.TokenAuthentication]
     permission_classes = (permissions.AllowAny,)
     serializer_class = serializers.VoteChoiseSerializer
+    queryset = models.VoteChoice.objects.all()
