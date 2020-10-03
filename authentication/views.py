@@ -1,6 +1,6 @@
-from rest_framework import response, status
+from django.contrib.auth import models
 from rest_framework import permissions
-from rest_framework import views
+from rest_framework import generics
 
 from users import serializers
 
@@ -14,9 +14,11 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-class CreateUserAPIView(views.APIView):
+class CreateUserAPIView(generics.CreateAPIView):
     # Allow any user (authenticated or not) to access this url
     permission_classes = (permissions.AllowAny,)
+    queryset = models.User.objects.all()
+    serializer_class = serializers.UserSerializer
 
     if coreapi_schema.is_enabled():
         schema = ManualSchema(
@@ -28,6 +30,15 @@ class CreateUserAPIView(views.APIView):
                     schema=coreschema.String(
                         title="Email",
                         description="Valid email for authentication",
+                    ),
+                ),
+                coreapi.Field(
+                    name="username",
+                    required=True,
+                    location='form',
+                    schema=coreschema.String(
+                        title="Username",
+                        description="user login",
                     ),
                 ),
                 coreapi.Field(
@@ -66,23 +77,6 @@ class CreateUserAPIView(views.APIView):
                         description="is user staff",
                     ),
                 ),
-                coreapi.Field(
-                    name="groups",
-                    required=True,
-                    location='form',
-                    schema=coreschema.Integer(
-                        title="Group of a user",
-                        description="user group id",
-                    ),
-                ),
             ],
             encoding="application/json",
         )
-
-    def post(self, request):
-        user = request.data
-        serializer = serializers.UserSerializer(data=user)
-        if not serializer.is_valid(raise_exception=False):
-            logger.error("user serializer error")
-        serializer.save()
-        return response.Response({"user": serializer.data, "status": status.HTTP_200_OK})

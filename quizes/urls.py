@@ -13,17 +13,12 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path, include
-from rest_framework.documentation import include_docs_urls
+from django.urls import path
 
-from goli import views
+from quizes import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/auth/', include('authentication.urls')),
-    path('api/users/', include('users.urls')),
-    # path('docs/', views.docs_view, name='docs'),
-    path('api/quizes/', include('quizes.urls')),
-    path('docs/', include_docs_urls(title='Goli API', public=True)),
+    path('<int:pk>/', views.QuizAPIView.as_view()),
+    path('', views.QuizListAPIView.as_view()),
+    path('', views.CreateQuizAPIView.as_view()),
 ]
