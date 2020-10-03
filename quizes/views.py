@@ -3,8 +3,7 @@ from django.shortcuts import render
 # Create your views here.
 from rest_framework import generics, permissions
 
-from quizes import models
-from users import serializers
+from quizes import models, serializers
 
 from rest_framework.compat import coreapi, coreschema
 from rest_framework.schemas import ManualSchema
@@ -73,7 +72,7 @@ class CreateQuizAPIView(generics.CreateAPIView):
             encoding="application/json",
         )
     permission_classes = (permissions.AllowAny,)
-    serializer_class = serializers.UserSerializer
+    serializer_class = serializers.QuizSerializer
 
 
 class QuizAPIView(generics.RetrieveUpdateDestroyAPIView):
@@ -138,11 +137,11 @@ class QuizAPIView(generics.RetrieveUpdateDestroyAPIView):
             encoding="application/json",
         )
     permission_classes = (permissions.AllowAny,)
-    serializer_class = serializers.UserSerializer
+    serializer_class = serializers.QuizSerializer
     queryset = models.Vote.objects.all()
 
 
 class QuizListAPIView(generics.ListAPIView):
     permission_classes = (permissions.AllowAny,)
-    serializer_class = serializers.UserSerializer
+    serializer_class = serializers.QuizSerializer
     queryset = models.Vote.objects.all()
