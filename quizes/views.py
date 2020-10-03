@@ -155,8 +155,9 @@ class VoteAPIView(generics.CreateAPIView):
     serializer_class = serializers.VoteChoiseSerializer
 
 
-class ListVoteAPIView(views.APIView):
+class ListCountVoteAPIView(views.APIView):
     permission_classes = (permissions.AllowAny,)
+    # authentication_classes = [authentication.TokenAuthentication]
 
     def get(self, request, **kwargs):
         quiz_id = kwargs.get('pk', -1)
@@ -165,3 +166,8 @@ class ListVoteAPIView(views.APIView):
         votes = models.VoteChoice.objects.filter(quiz_id=quiz_id).values('choice').annotate(Count('user'))
         return response.Response(votes, status=status.HTTP_200_OK)
 
+
+class ListVoteAPIView(generics.ListAPIView):
+    # authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = (permissions.AllowAny,)
+    serializer_class = serializers.VoteChoiseSerializer
