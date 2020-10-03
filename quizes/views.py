@@ -1,13 +1,14 @@
-from django.shortcuts import render
+from django.db.models import Count
 
 # Create your views here.
-from rest_framework import generics, permissions
+from rest_framework import generics, permissions, views, response, authentication, status
 
 from quizes import models, serializers
 
 from rest_framework.compat import coreapi, coreschema
 from rest_framework.schemas import ManualSchema
 from rest_framework.schemas import coreapi as coreapi_schema
+
 
 class CreateQuizAPIView(generics.CreateAPIView):
     if coreapi_schema.is_enabled():
@@ -142,11 +143,25 @@ class QuizAPIView(generics.RetrieveUpdateDestroyAPIView, generics.CreateAPIView)
 
 
 class QuizListAPIView(generics.ListAPIView):
+    # authentication_classes = [authentication.TokenAuthentication]
     permission_classes = (permissions.AllowAny,)
     serializer_class = serializers.QuizSerializer
     queryset = models.Vote.objects.all()
 
 
 class VoteAPIView(generics.CreateAPIView):
+    # authentication_classes = [authentication.TokenAuthentication]
     permission_classes = (permissions.AllowAny,)
     serializer_class = serializers.VoteChoiseSerializer
+
+
+class ListVoteAPIView(views.APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def get(self, request, **kwargs):
+        quiz_id = kwargs.get('quiz', -1)
+        if quiz_id == -1:
+            return response.Response(status=status.HTTP_404_NOT_FOUND)
+        votes = models.VoteChoice.objects.filter(quiz_id=quiz_id).values('choice', 'user').annotate(Count('user'))
+        return response.Response(votes, status=status.HTTP_200_OK)
+

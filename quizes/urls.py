@@ -22,4 +22,5 @@ urlpatterns = [
     path('', views.QuizListAPIView.as_view()),
     path('create/', views.CreateQuizAPIView.as_view()),
     path('<int:pk>/vote/', views.VoteAPIView.as_view()),
+    path('<int:pk>/votes/', views.ListVoteAPIView.as_view()),
 ]
