@@ -74,7 +74,6 @@ class CreateQuizAPIView(generics.CreateAPIView):
         )
     permission_classes = (permissions.AllowAny,)
     serializer_class = serializers.UserSerializer
-    queryset = models.Vote.objects.all()
 
 
 class QuizAPIView(generics.RetrieveUpdateDestroyAPIView):
