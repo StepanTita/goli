@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 import os
+import django_heroku
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -161,3 +162,4 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 #         }
 #     },
 # }
+django_heroku.settings(locals())
