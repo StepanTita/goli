@@ -20,5 +20,6 @@ from quizes import views
 urlpatterns = [
     path('<int:pk>/', views.QuizAPIView.as_view()),
     path('', views.QuizListAPIView.as_view()),
-    path('<int:pk>/vote', views.VoteAPIView.as_view()),
+    path('create/', views.CreateQuizAPIView.as_view()),
+    path('<int:pk>/vote/', views.VoteAPIView.as_view()),
 ]
