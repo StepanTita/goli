@@ -4,7 +4,7 @@ from django.db.models.signals import pre_save
 from django.dispatch import receiver
 
 
-# TODO rename to Quize
+# TODO rename to Quiz
 class Vote(models.Model):
     title = models.TextField(blank=False, null=False)
     quiz_type = models.TextField(blank=False, null=False)
@@ -12,6 +12,8 @@ class Vote(models.Model):
     goal = models.PositiveBigIntegerField(blank=False, null=False)
     indicator_value = models.FloatField(blank=False, null=False)
     vote_detail = models.JSONField()
+    author = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    description = models.TextField(blank=False, null=False, default="This is a default quiz")
 
     def __str__(self):
         return self.title
