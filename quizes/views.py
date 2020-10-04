@@ -66,6 +66,24 @@ class CreateQuizAPIView(generics.CreateAPIView):
                     ),
                 ),
                 coreapi.Field(
+                    name="author",
+                    required=True,
+                    location='form',
+                    schema=coreschema.String(
+                        title="Author username",
+                        description="author username",
+                    ),
+                ),
+                coreapi.Field(
+                    name="description",
+                    required=True,
+                    location='form',
+                    schema=coreschema.String(
+                        title="question description",
+                        description="description",
+                    ),
+                ),
+                coreapi.Field(
                     name="vote_detail",
                     required=True,
                     location='form',

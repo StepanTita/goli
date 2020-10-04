@@ -6,8 +6,6 @@ from rest_framework.authtoken.views import obtain_auth_token
 
 from authentication import views
 
-print(include('rest_framework.urls'))
-
 urlpatterns = [
     # path('', include('rest_framework.urls')),
     path('login/', obtain_auth_token),

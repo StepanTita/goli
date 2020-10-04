@@ -12,8 +12,8 @@ class Vote(models.Model):
     goal = models.PositiveBigIntegerField(blank=False, null=False)
     indicator_value = models.FloatField(blank=False, null=False)
     vote_detail = models.JSONField()
-    author = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
-    description = models.TextField(blank=False, null=False, default="This is a default quiz")
+    author = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, to_field='username')
+    description = models.TextField(blank=False, null=False, default='This is a default quiz')
 
     def __str__(self):
         return self.title
