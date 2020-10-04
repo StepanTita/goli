@@ -8,6 +8,12 @@ from quizes import models, serializers
 from rest_framework.compat import coreapi, coreschema
 from rest_framework.schemas import ManualSchema
 from rest_framework.schemas import coreapi as coreapi_schema
+from rest_framework.pagination import PageNumberPagination
+
+
+class PageNumberSetPagination(PageNumberPagination):
+    page_size = 4
+    page_size_query_param = 'page_size'
 
 
 class CreateQuizAPIView(generics.CreateAPIView):
@@ -76,7 +82,7 @@ class CreateQuizAPIView(generics.CreateAPIView):
     queryset = models.Vote.objects.all()
 
 
-class QuizAPIView(generics.RetrieveUpdateDestroyAPIView, generics.CreateAPIView):
+class QuizAPIView(generics.RetrieveUpdateDestroyAPIView):
     if coreapi_schema.is_enabled():
         schema = ManualSchema(
             fields=[
@@ -147,8 +153,10 @@ class QuizListAPIView(generics.ListAPIView):
     permission_classes = (permissions.AllowAny,)
     serializer_class = serializers.QuizSerializer
     queryset = models.Vote.objects.all()
+    pagination_class = PageNumberSetPagination
 
 
+# TODO check quizes are only created by staff
 class VoteAPIView(generics.CreateAPIView):
     # authentication_classes = [authentication.TokenAuthentication]
     permission_classes = (permissions.AllowAny,)

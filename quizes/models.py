@@ -1,5 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 
 
 # TODO rename to Quize
@@ -26,3 +28,10 @@ class VoteChoice(models.Model):
 
     def __str__(self):
         return f"{self.quiz}:{self.user}"
+
+
+@receiver(pre_save, sender=VoteChoice)
+def calculate_indicator(sender, instance, *args, **kwargs):
+    voters = VoteChoice.objects.filter(quiz=instance.quiz).distinct('user')
+    instance.quiz.indicator_value = min(1, len(voters) / instance.goal)
+    instance.quiz.save()
