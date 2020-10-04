@@ -33,5 +33,5 @@ class VoteChoice(models.Model):
 @receiver(pre_save, sender=VoteChoice)
 def calculate_indicator(sender, instance, *args, **kwargs):
     voters = VoteChoice.objects.filter(quiz=instance.quiz).distinct('user')
-    instance.quiz.indicator_value = min(1, len(voters) / instance.goal)
+    instance.quiz.indicator_value = min(1, len(voters) / instance.quiz.goal)
     instance.quiz.save()
